@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from imdb_app.models import WatchList, StreamPlatform, Review
-        
+
 class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
