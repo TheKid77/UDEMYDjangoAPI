@@ -9,7 +9,7 @@ from rest_framework import generics
 # from rest_framework import mixins
 
 class ReviewList(generics.ListAPIView):
-    queryset = Review.objects.all()
+    # queryset = Review.objects.all()
     serializer_class = ReviewSerializer  
 
     def get_queryset(self):
@@ -18,7 +18,7 @@ class ReviewList(generics.ListAPIView):
 
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
-    serializer_class = Review.objects.all()
+    serializer_class = ReviewSerializer
     
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer  
