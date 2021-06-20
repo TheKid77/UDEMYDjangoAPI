@@ -1,11 +1,14 @@
 from rest_framework.response import Response
 # from rest_framework.decorators import api_view
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from imdb_app.models import WatchList, StreamPlatform, Review
 from imdb_app.api.serializers import (WatchListSerializer, StreamPlatformSerializer, 
                                         ReviewSerializer)
 from rest_framework import generics
+from rest_framework import viewsets
+
 # from rest_framework import mixins
 
 class ReviewList(generics.ListAPIView):
@@ -44,6 +47,19 @@ class ReviewCreate(generics.CreateAPIView):
 
 #     def get(self, request, *args, **kwargs):
 #         return self.retrieve(request, *args, **kwargs)
+
+class StreamPlatformVS(viewsets.ViewSet):
+    
+    def list(self, request):
+        queryset = StreamPlatform.objects.all()
+        serializer = StreamPlatformSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        queryset = StreamPlatform.objects.all()
+        watchlist = get_object_or_404(queryset, pk=pk)
+        serializer = StreamPlatformSerializer(watchlist)
+        return Response(serializer.data)
 
 class StreamPlatformAV(APIView):
 
