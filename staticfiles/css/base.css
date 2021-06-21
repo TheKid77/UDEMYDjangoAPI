@@ -1,0 +1,22 @@
+h1 {
+    color : white;
+    margin:auto;
+    text-align: center;
+    background-color : black;
+}
+
+img {
+    text-align: center;
+    margin : auto;
+}
+
+.modelname {
+    color : red;
+    font-weight : bold;
+}
+
+.centermodels {
+    margin-left: auto;
+    margin-right: auto;
+    width:100%;
+  }
