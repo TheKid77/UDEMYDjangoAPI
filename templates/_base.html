@@ -14,8 +14,8 @@
     <h1>Andy's IMDB Style API Examples</h1>
     <!-- Fixed navbar -->
     <br />
-    <div>
-      <img src="{% static 'images/logo.png' %}" width="600px" style="display: block; margin: 0 auto 0 auto">
+    <div class="container">
+      <img src="{% static 'images/logo.png' %}" width="600px" class="img-fluid" style="display: block; margin: 0 auto 0 auto">
     </div>
     <br />
     <center>
@@ -52,13 +52,13 @@
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4
      mb-3 bg-white border-bottom shadow-sm">
       <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark" href="{% url 'streamplatform-list' %}">All Platforms, Movies and Reviews</a>
-        <a class="p-2 text-dark" href="{% url 'streamplatform-detail' pk=1 %}">Specific Platform</a>
-        <a class="p-2 text-dark" href="{% url 'movie-list' %}">All Movies and Reviews</a>
-        <a class="p-2 text-dark" href="{% url 'movie-detail' pk=1 %}">Specific Movie and Reviews</a>
-        <a class="p-2 text-dark" href="{% url 'review-list' pk=1 %}">All Reviews for Specific Movie</a>
-        <a class="p-2 text-dark" href="{% url 'review-detail' pk=1 %}">A Specific Review</a>
-        <a class="p-2 text-dark" href="{% url 'review-create' pk=1 %}">Create a Review</a>
+        <a class="link-primary" href="{% url 'streamplatform-list' %}">All Platforms, Movies and Reviews</a>
+        <a class="link-primary" href="{% url 'streamplatform-detail' pk=1 %}">Specific Platform</a>
+        <a class="link-primary" href="{% url 'movie-list' %}">All Movies and Reviews</a>
+        <a class="link-primary" href="{% url 'movie-detail' pk=1 %}">Specific Movie and Reviews</a>
+        <a class="link-primary" href="{% url 'review-list' pk=1 %}">All Reviews for Specific Movie</a>
+        <a class="link-primary" href="{% url 'review-detail' pk=1 %}">A Specific Review</a>
+        <a class="link-primary" href="{% url 'review-create' pk=1 %}">Create a Review</a>
       </nav>
     </div>
   </header>
