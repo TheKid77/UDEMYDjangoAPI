@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'drf_yasg2',
 
     # 3rd party
 
