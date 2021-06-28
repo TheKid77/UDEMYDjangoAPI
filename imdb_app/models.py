@@ -32,5 +32,5 @@ class Review(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.rating) + ' ' + self.watchlist.title + ' ' + self.description
+        return str(self.rating) + ' ' + self.watchlist.title + ' ' + self.description + ' ' + str(self.review_user)
         

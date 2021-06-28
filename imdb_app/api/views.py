@@ -10,14 +10,14 @@ from imdb_app.api.serializers import (WatchListSerializer, StreamPlatformSeriali
 from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from imdb_app.api.permissions import AdminOrReadOnly, ReviewUserOrReadOnly
+from imdb_app.api.permissions import IsAdminOrReadOnly, IsReviewUserOrReadOnly
 
 # from rest_framework import mixins
 
 class ReviewList(generics.ListAPIView):
     # queryset = Review.objects.all()
     serializer_class = ReviewSerializer  
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         pk = self.kwargs['pk']
@@ -26,11 +26,12 @@ class ReviewList(generics.ListAPIView):
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = [ReviewUserOrReadOnly]
-    # permission_classes = [AdminOrReadOnly]
+    permission_classes = [IsReviewUserOrReadOnly]
+    # permission_classes = [IsAdminOrReadOnly]
     
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer  
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Review.objects.all()
@@ -72,7 +73,7 @@ class ReviewCreate(generics.CreateAPIView):
 #         return self.retrieve(request, *args, **kwargs)
 
 class StreamPlatformVS(viewsets.ModelViewSet):
-
+    permission_classes = [IsAdminOrReadOnly]
     queryset = StreamPlatform.objects.all()
     serializer_class = StreamPlatformSerializer
 
@@ -99,7 +100,8 @@ class StreamPlatformVS(viewsets.ModelViewSet):
 #             return Response(serializer.errors)
 
 class StreamPlatformAV(APIView):
-
+    permission_classes = [IsAdminOrReadOnly]
+    
     def get(self, request):
         platform = StreamPlatform.objects.all()
         serializer = StreamPlatformSerializer(platform, many=True, context={'request': request})
@@ -114,6 +116,7 @@ class StreamPlatformAV(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class StreamPlatformDetailAV(APIView):
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request, pk):
         try:
@@ -125,6 +128,7 @@ class StreamPlatformDetailAV(APIView):
         return Response(serializer.data)
 
     def put(self, request, pk):
+
         platform = StreamPlatform.objects.get(pk=pk)
         serializer = StreamPlatformSerializer(platform, data=request.data)
         if serializer.is_valid():
@@ -140,6 +144,8 @@ class StreamPlatformDetailAV(APIView):
 
 class WatchListAV(APIView):
 
+    permission_classes = [IsAdminOrReadOnly]
+    
     def get(self, request):
         movies = WatchList.objects.all()
         serializer = WatchListSerializer(movies, many=True)
@@ -154,7 +160,9 @@ class WatchListAV(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class WatchDetailAV(APIView):
-
+    
+    permission_classes = [IsAdminOrReadOnly]
+    
     def get(self, request, pk):
         try:
             movie = WatchList.objects.get(pk=pk)
