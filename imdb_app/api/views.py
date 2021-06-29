@@ -9,6 +9,8 @@ from imdb_app.api.serializers import (WatchListSerializer, StreamPlatformSeriali
 from rest_framework import generics
 from rest_framework import viewsets
 
+from django.conf.urls import url
+
 # from rest_framework import mixins
 
 class ReviewList(generics.ListAPIView):

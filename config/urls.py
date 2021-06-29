@@ -16,28 +16,36 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import permissions
-from drf_yasg2.views import get_schema_view
-from drf_yasg2 import openapi 
+from django.views.generic import TemplateView
+from rest_framework.schemas import get_schema_view
+
+from rest_framework.schemas import get_schema_view
 
 schema_view = get_schema_view(
-    openapi.Info(
-        title="IMDB API", 
-        default_version="v1",
-        description="An IMDB style API", 
-        terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="hello@example.com"),
-        licence=openapi.License(name="BSD License"),
-    ),
-    public=True, 
-    permission_classes=(permissions.AllowAny,),
+    title='Server Monitoring API',
+#    urlconf='IMDB.config.urls',
+#    urlconf='IMDB.u',
 )
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('watch/', include('imdb_app.api.urls')),
     path('', include('home.urls')),
-    path('swagger/', schema_view.with_ui( 
-      'swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui( 
-      'redoc', cache_timeout=0), name='schema-redoc'),
+    # ...
+    # Use the `get_schema_view()` helper to add a `SchemaView` to project URLs.
+    #   * `title` and `description` parameters are passed to `SchemaGenerator`.
+    #   * Provide view name for use with `reverse()`.
+    path('openapi', get_schema_view(
+        title="Andy's IMDB API Documentation",
+        description="API for all things …",
+        version="1.0.0",
+    ), name='openapi-schema'),
+    # ...
+        # ...
+    # Route TemplateView to serve Swagger UI template.
+    #   * Provide `extra_context` with view name of `SchemaView`.
+    path('swagger-ui/', TemplateView.as_view(
+        template_name='swagger-ui.html',
+        extra_context={'schema_url':'openapi-schema'}
+    ), name='swagger-ui'),
+
 ]
