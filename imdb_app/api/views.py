@@ -11,6 +11,8 @@ from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from imdb_app.api.permissions import IsAdminOrReadOnly, IsReviewUserOrReadOnly
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle, ScopedRateThrottle
+from imdb_app.api.throttling import ReviewCreateThrottle, ReviewListThrottle
 
 # from rest_framework import mixins
 
@@ -18,6 +20,7 @@ class ReviewList(generics.ListAPIView):
     # queryset = Review.objects.all()
     serializer_class = ReviewSerializer  
     # permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
     def get_queryset(self):
         pk = self.kwargs['pk']
@@ -28,10 +31,13 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ReviewSerializer
     permission_classes = [IsReviewUserOrReadOnly]
     # permission_classes = [IsAdminOrReadOnly]
-    
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'review-detail'
+
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer  
     permission_classes = [IsAuthenticated]
+    throttle_classes = [ReviewCreateThrottle]
 
     def get_queryset(self):
         return Review.objects.all()
