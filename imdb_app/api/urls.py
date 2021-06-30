@@ -4,14 +4,16 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from imdb_app.api.views import (ReviewList, ReviewDetail, ReviewCreate, WatchListAV, 
                                 WatchDetailAV, StreamPlatformVS, StreamPlatformAV, 
-                                StreamPlatformDetailAV)
+                                StreamPlatformDetailAV, UserReview, WatchList)
+
 
 router = DefaultRouter()
 router.register('stream', StreamPlatformVS, basename='streamplatform')
 
 urlpatterns = [
     path('list/', WatchListAV.as_view(), name='movie-list'),
-    path('<int:pk>/', WatchDetailAV.as_view(), name='movie-detail'),    
+    path('<int:pk>/', WatchDetailAV.as_view(), name='movie-detail'),   
+#    path('list2/', WatchList.as_view(), name='watch-list'),    
     
     path('', include(router.urls)),
 
@@ -24,5 +26,11 @@ urlpatterns = [
     path('<int:pk>/review-create', ReviewCreate.as_view(), name='review-create'),
     path('<int:pk>/reviews/', ReviewList.as_view(), name='review-list'),
     path('review/<int:pk>', ReviewDetail.as_view(), name='review-detail'),
+
+    # FILTERING
+    # path('review/<str:username>', UserReview.as_view(), name='user-review-detail'),
+
+    # FILTERING VIA QUERY PARAM
+    path('reviews/', UserReview.as_view(), name='user-review-detail'),
 
 ]

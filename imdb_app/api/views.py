@@ -8,19 +8,36 @@ from imdb_app.models import WatchList, StreamPlatform, Review
 from imdb_app.api.serializers import (WatchListSerializer, StreamPlatformSerializer, 
                                         ReviewSerializer)
 from rest_framework import generics
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from imdb_app.api.permissions import IsAdminOrReadOnly, IsReviewUserOrReadOnly
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle, ScopedRateThrottle
 from imdb_app.api.throttling import ReviewCreateThrottle, ReviewListThrottle
+# from django_filters.rest_framework import DjangoFilterBackend
 
 # from rest_framework import mixins
 
-class ReviewList(generics.ListAPIView):
+class UserReview(generics.ListAPIView):
+    # queryset = Review.objects.all()
+    serializer_class = ReviewSerializer  
+    # permission_classes = [IsAuthenticated]
+    # throttle_classes = [UserRateThrottle, AnonRateThrottle]
+
+# def get_queryset(self): 
+#     username = self.kwargs['username']
+#     return Review.objects.filter(review_user__username=username)
+
+    def get_queryset(self): # FILTERING via query param
+        username = self.request.query_params.get('username')
+        return Review.objects.filter(review_user__username=username)
+
+class ReviewList(generics.ListAPIView): # Django-filter
     # queryset = Review.objects.all()
     serializer_class = ReviewSerializer  
     # permission_classes = [IsAuthenticated]
     throttle_classes = [UserRateThrottle, AnonRateThrottle]
+#    filter_backends = [DjangoFilterBackend]
+#    filterset_fields = ['review_user__username', 'active']
 
     def get_queryset(self):
         pk = self.kwargs['pk']
@@ -147,6 +164,24 @@ class StreamPlatformDetailAV(APIView):
          platform = StreamPlatform.objects.get(pk=pk)
          platform.delete()
          return Response(status=status.HTTP_204_NO_CONTENT)
+
+# class WatchList(generics.ListAPIView): # Filter Backend
+#     queryset = WatchList.objects.all()
+#     serializer_class = WatchListSerializer
+#     filter_backends = [DjangoFilterBackend]
+#     filterset_fields = ['title', 'platform__name']
+
+# class WatchList(generics.ListAPIView): # Django-Searchfilter
+#     queryset = WatchList.objects.all()
+#     serializer_class = WatchListSerializer
+#     filter_backends = [filters.SearchFilter]
+#     search_fields = ['title', 'platform__name']
+
+#class WatchList(generics.ListAPIView): # Filter Backend
+#    queryset = WatchList.objects.all()
+#    serializer_class = WatchListSerializer
+#    filter_backends = [filters.OrderingFilter]
+#    ordering_fields = ['avg_rating']
 
 class WatchListAV(APIView):
 

@@ -8,6 +8,8 @@ django = "~=3.1.0"
 djangorestframework = "*"
 django-environ = "*"
 psycopg2-binary = "==2.8.5"
+django-filter = "*"
+pyyaml = "*"
 
 [dev-packages]
 
