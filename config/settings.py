@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg', # drf_yasg fro Swagger documentation
 
     # 3rd party
 
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     # Local 
 
     'imdb_app',
+    'home',
 ]
 
 MIDDLEWARE = [
@@ -159,13 +161,8 @@ REST_FRAMEWORK = {
     # ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+          'rest_framework.authentication.TokenAuthentication',
     ],
-
-    # 'DEFAULT_THROTTLE_CLASSES': [
-    #     'rest_framework.throttling.AnonRateThrottle',
-    #     'rest_framework.throttling.UserRateThrottle'
-    # ],
 
     'DEFAULT_THROTTLE_RATES': {
         'anon': '5/day',
@@ -174,4 +171,14 @@ REST_FRAMEWORK = {
         'review-create': '2/day',
         'review-detail': '2/day',
     }
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
 }
