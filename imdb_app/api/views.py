@@ -8,75 +8,16 @@ from imdb_app.models import WatchList, StreamPlatform, Review
 from imdb_app.api.serializers import (WatchListSerializer, StreamPlatformSerializer, 
                                         ReviewSerializer)
 from rest_framework import generics
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from imdb_app.api.permissions import IsAdminOrReadOnly, IsReviewUserOrReadOnly
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle, ScopedRateThrottle
 from imdb_app.api.throttling import ReviewCreateThrottle, ReviewListThrottle
+from django_filters.rest_framework import DjangoFilterBackend
 
 # from rest_framework import mixins
+# from django.conf.urls import url
 
-class ReviewList(generics.ListAPIView):
-    # queryset = Review.objects.all()
-    serializer_class = ReviewSerializer  
-    # permission_classes = [IsAuthenticated]
-    throttle_classes = [UserRateThrottle, AnonRateThrottle]
-
-    def get_queryset(self):
-        pk = self.kwargs['pk']
-        return Review.objects.filter(watchlist=pk)
-        
-class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Review.objects.all()
-    serializer_class = ReviewSerializer
-    permission_classes = [IsReviewUserOrReadOnly]
-    # permission_classes = [IsAdminOrReadOnly]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'review-detail'
-
-class ReviewCreate(generics.CreateAPIView):
-    serializer_class = ReviewSerializer  
-    permission_classes = [IsAuthenticated]
-    throttle_classes = [ReviewCreateThrottle]
-
-    def get_queryset(self):
-        return Review.objects.all()
-
-    def perform_create(self, serializer):
-        print(f"{self} / {self.request} / {self.kwargs}")
-        pk = self.kwargs.get('pk')
-        movie = WatchList.objects.get(pk=pk)
-
-        review_user = self.request.user
-        review_queryset = Review.objects.filter(watchlist=movie, review_user=review_user)
-
-        if review_queryset.exists():
-            raise ValidationError("You have already reviewed this movie!")
-
-        if movie.no_of_ratings == 0:
-            movie.avg_rating = serializer.validated_data['rating'] 
-        else:
-            movie.avg_rating = (movie.avg_rating + serializer.validated_data['rating']) / 2
-        movie.no_of_ratings = movie.no_of_ratings + 1
-        movie.save()
-        serializer.save(watchlist=movie, review_user=review_user)
-
-# class ReviewList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
-#     queryset = Review.objects.all()
-#     serializer_class = ReviewSerializer
-
-#     def get(self, request, *args, **kwargs):
-#         return self.list(request, *args, **kwargs)
-
-#     def post(self, request, *args, **kwargs):
-#         return self.create(request, *args, **kwargs)
-
-# class ReviewDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
-#     queryset = Review.objects.all()
-#     serializer_class = ReviewSerializer
-
-#     def get(self, request, *args, **kwargs):
-#         return self.retrieve(request, *args, **kwargs)
 
 class StreamPlatformVS(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly]
@@ -148,10 +89,28 @@ class StreamPlatformDetailAV(APIView):
          platform.delete()
          return Response(status=status.HTTP_204_NO_CONTENT)
 
+# class WatchList(generics.ListAPIView): # Filter Backend
+#     queryset = WatchList.objects.all()
+#     serializer_class = WatchListSerializer
+#     filter_backends = [DjangoFilterBackend]
+#     filterset_fields = ['title', 'platform__name']
+
+# class WatchList(generics.ListAPIView): # Django-Searchfilter
+#     queryset = WatchList.objects.all()
+#     serializer_class = WatchListSerializer
+#     filter_backends = [filters.SearchFilter]
+#     search_fields = ['title', 'platform__name']
+
+class WatchListGV(generics.ListAPIView): # Filter Backend
+    queryset = WatchList.objects.all()
+    serializer_class = WatchListSerializer
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['avg_rating']
+
 class WatchListAV(APIView):
 
     permission_classes = [IsAdminOrReadOnly]
-    
+    # permission_classes = [IsAuthenticatedOrReadOnly]
     def get(self, request):
         movies = WatchList.objects.all()
         serializer = WatchListSerializer(movies, many=True)
@@ -237,3 +196,78 @@ class WatchDetailAV(APIView):
 #         movie = Movie.objects.get(pk=pk)
 #         movie.delete()
 #         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UserReview(generics.ListAPIView):
+    # queryset = Review.objects.all()
+    serializer_class = ReviewSerializer  
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
+
+# def get_queryset(self): 
+#     username = self.kwargs['username']
+#     return Review.objects.filter(review_user__username=username)
+
+    def get_queryset(self): # FILTERING via query param
+        username = self.request.query_params.get('username')
+        return Review.objects.filter(review_user__username=username)
+
+class ReviewList(generics.ListAPIView): # Django-filter
+    # queryset = Review.objects.all()
+    serializer_class = ReviewSerializer  
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Review.objects.filter(watchlist=pk)
+
+class ReviewCreate(generics.CreateAPIView):
+    serializer_class = ReviewSerializer  
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [ReviewCreateThrottle]
+
+    def get_queryset(self):
+        return Review.objects.all()
+
+    def perform_create(self, serializer):
+        print(f"{self} / {self.request} / {self.kwargs}")
+        pk = self.kwargs.get('pk')
+        movie = WatchList.objects.get(pk=pk)
+
+        review_user = self.request.user
+        review_queryset = Review.objects.filter(watchlist=movie, review_user=review_user)
+
+        if review_queryset.exists():
+            raise ValidationError("You have already reviewed this movie!")
+
+        if movie.no_of_ratings == 0:
+            movie.avg_rating = serializer.validated_data['rating'] 
+        else:
+            movie.avg_rating = (movie.avg_rating + serializer.validated_data['rating']) / 2
+        movie.no_of_ratings = movie.no_of_ratings + 1
+        movie.save()
+        serializer.save(watchlist=movie, review_user=review_user)
+        
+class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    permission_classes = [IsReviewUserOrReadOnly]
+    # permission_classes = [IsAdminOrReadOnly]
+
+
+# class ReviewList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+#     queryset = Review.objects.all()
+#     serializer_class = ReviewSerializer
+
+#     def get(self, request, *args, **kwargs):
+#         return self.list(request, *args, **kwargs)
+
+#     def post(self, request, *args, **kwargs):
+#         return self.create(request, *args, **kwargs)
+
+# class ReviewDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
+#     queryset = Review.objects.all()
+#     serializer_class = ReviewSerializer
+
+#     def get(self, request, *args, **kwargs):
+#         return self.retrieve(request, *args, **kwargs)

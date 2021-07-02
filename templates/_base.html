@@ -52,7 +52,8 @@
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4
      mb-3 bg-white border-bottom shadow-sm">
       <nav class="my-2 my-md-0 mr-md-3">
-        <a class="link-danger" href="{% url 'swagger-ui' %}">Swagger API Docs</a> /
+        <a class="link-danger" href="{% url 'schema-swagger-ui' %}">Swagger Docs</a> /
+        <a class="link-danger" href="{% url 'schema-redoc' %}">Redoc Docs</a> /
         <a class="link-primary" href="{% url 'streamplatform-list' %}">All Platforms, Movies and Reviews</a> /
         <a class="link-primary" href="{% url 'streamplatform-detail' pk=1 %}">Specific Platform</a> /
         <a class="link-primary" href="{% url 'movie-list' %}">All Movies and Reviews</a> /
