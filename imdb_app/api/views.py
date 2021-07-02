@@ -13,6 +13,8 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from imdb_app.api.permissions import IsAdminOrReadOnly, IsReviewUserOrReadOnly
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle, ScopedRateThrottle
 from imdb_app.api.throttling import ReviewCreateThrottle, ReviewListThrottle
+from imdb_app.api.pagination import WatchListPagination
+
 from django_filters.rest_framework import DjangoFilterBackend
 
 # from rest_framework import mixins
@@ -104,6 +106,7 @@ class StreamPlatformDetailAV(APIView):
 class WatchListGV(generics.ListAPIView): # Filter Backend
     queryset = WatchList.objects.all()
     serializer_class = WatchListSerializer
+    pagination_class = WatchListPagination
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['avg_rating']
 
