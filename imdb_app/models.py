@@ -19,8 +19,13 @@ class WatchList(models.Model):
     no_of_ratings = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ('created',) 
+
     def __str__(self):
-        return self.title + ' / ' + str(self.platform)
+        return str(self.id) + ' / ' + self.title + ' / ' + str(self.platform)
+
+
 
 class Review(models.Model):
     review_user = models.ForeignKey(User, on_delete=models.CASCADE)
