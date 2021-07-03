@@ -60,7 +60,7 @@ class StreamPlatformAV(APIView):
         serializer = StreamPlatformSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -125,9 +125,10 @@ class WatchListAV(APIView):
         serializer = WatchListSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status.HTTP_201_CREATED)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+           return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class WatchDetailAV(APIView):
     
@@ -235,7 +236,6 @@ class ReviewCreate(generics.CreateAPIView):
         return Review.objects.all()
 
     def perform_create(self, serializer):
-        print(f"{self} / {self.request} / {self.kwargs}")
         pk = self.kwargs.get('pk')
         movie = WatchList.objects.get(pk=pk)
 
