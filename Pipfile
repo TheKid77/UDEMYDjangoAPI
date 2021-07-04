@@ -16,6 +16,7 @@ coreapi = "*"
 drf-yasg = "*"
 whitenoise = "==5.1.0"
 gunicorn = "==20.0.4"
+dj-database-url = "*"
 
 [dev-packages]
 
