@@ -14,6 +14,7 @@ uritemplate = "*"
 django-rest-swagger = "*"
 coreapi = "*"
 drf-yasg = "*"
+whitenoise = "==5.1.0"
 
 [dev-packages]
 
