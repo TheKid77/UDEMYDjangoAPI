@@ -9,7 +9,7 @@ from imdb_app.api.serializers import (WatchListSerializer, StreamPlatformSeriali
                                         ReviewSerializer)
 from rest_framework import generics
 from rest_framework import viewsets, filters
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 from imdb_app.api.permissions import IsAdminOrReadOnly, IsReviewUserOrReadOnly
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle, ScopedRateThrottle
 from imdb_app.api.throttling import ReviewCreateThrottle, ReviewListThrottle
@@ -129,6 +129,18 @@ class WatchListAV(APIView):
         else:
            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class WatchListAV2(generics.CreateAPIView):
+    serializer_class = WatchListSerializer  
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    # permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer = WatchListSerializer(data=self.request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status.HTTP_201_CREATED)
+        else:
+           return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class WatchDetailAV(APIView):
     

@@ -24,7 +24,7 @@ schema_view = get_schema_view(
     openapi.Info(
         title="Andy's IMDB API",
         default_version='v1',
-        description="Welcome to the world Andy's IMDB clone documentation",
+        description="Welcome to Andy's IMDB clone documentation",
         terms_of_service="https://www.jaseci.org",
         contact=openapi.Contact(email="Andy@someemail.com"),
         license=openapi.License(name="Awesome IP"),
@@ -34,7 +34,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin-page/', admin.site.urls),
     path('watch/', include('imdb_app.api.urls')),
 #   path('api-auth/', include('rest_framework.urls')),
     path('account/', include('user_app.api.urls')),
