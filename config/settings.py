@@ -11,11 +11,11 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-import environ
+# import environ
 
 # reading .env file
-env = Env()
-env.read_env()
+# env = Env()
+# env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,7 +30,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 # DEBUG = env.bool("DJANGO_DEBUG", default=False)
 DEBUG = True
 
-ALLOWED_HOSTS = ['majestic-north-cascades-99899.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['https://majestic-north-cascades-99899.herokuapp.com', 'localhost']
 
 
 # Application definition
