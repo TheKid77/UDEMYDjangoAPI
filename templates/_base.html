@@ -45,7 +45,7 @@
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
         <div class="container">
-          <h1 class="display-5">Andy's IMDB Style API Django Rest Framework Collection.</h1>
+          <h1 class="display-5">Andy's IMDB Style API Django Rest Framework Collection</h1>
           <br />
           <p>This API Collection allows you to view all distribution platforms, movies and reviews.  Users can also
             create new movies and create individual reviews for a movie.</p>
@@ -59,23 +59,23 @@
           <div class="col-md-4">
             <h2>Registration and Authenticaion</h2>
             <p>Click on Swagger API Documentation.</p>
-            <p>Use the <strong>/account/register/</strong> endpoint (Try it out) to create a new user. (Requires a <strong>Username, Email</strong> and <strong>Confirmed Password</strong>.)</p>
-            <p>Use the <strong>/account/login/</strong> endpoint (Try it out) to login which will return an authentication tokenstring. (Requires a <strong>Username</strong> and <strong>Password</strong>.)</p>
+            <p>Use the <strong><span class ="text-primary">/account/register/</span></strong> endpoint (Try it out) to create a new user. (Requires a <strong><span class ="text-danger">Username, Email</span></strong> and <strong><span class ="text-danger">Confirmed Password</span></strong>.)</p>
+            <p>Use the <strong><span class ="text-primary">/account/login/</span></strong> endpoint (Try it out) to login which will return an authentication tokenstring. (Requires a <strong><span class ="text-danger">Username</span></strong> and <strong><span class ="text-danger">Password</span></strong>.)</p>
             <p>Click on Authorize and supply the value, "Token tokenstring" - Click Authorize.</p>
           </div>
           <div class="col-md-4">
             <h2>Create a new movie</h2>
             <p>Click on Swagger API Documentation.</p>
-            <p>Use the <strong>POST /watch/create-movie</strong> endpoint (Try it out) to create a new movie. (Only requires a <strong>Title, Storyline</strong> and 
-            <strong>Platform</strong> (1 - Disney Channel, 2 - Prime Video, 3 - Netflix.)</p>
+            <p>Use the <strong><span class ="text-primary">POST /watch/create-movie</span></strong> endpoint (Try it out) to create a new movie. (Only requires a <strong><span class ="text-danger">Title, Storyline</strong> and 
+            <strong><span class ="text-danger">Platform</span></strong> (1 - Disney Channel, 2 - Prime Video, 3 - Netflix.)</p>
          </div>
           <div class="col-md-4">
             <h2>Create a review for a specific movie</h2>
             <p>Click on Swagger API Documentation.</p>
-            <p>Use the <strong>GET /watch/list/</strong> endpoint (Try it out) and identify the <strong>Id</strong> of the movie you
+            <p>Use the <strong><span class ="text-primary">GET /watch/list/</span></strong> endpoint (Try it out) and identify the <strong><span class ="text-danger">Id</span></strong> of the movie you
              wish to review (listed above "reviews" field)</p>
-            <p>Use the <strong>POST /watch/{id}/review-create</strong> endpoint (Try  it out) to create a review. (Requires
-            a <strong>Rating, Description</strong> and the <strong>Id</strong> of the movie identified above.)</p>
+            <p>Use the <strong><span class ="text-primary">POST /watch/{id}/review-create</span></strong> endpoint (Try  it out) to create a review. (Requires
+            a <strong><span class ="text-danger">Rating, Description</span></strong> and the <strong><span class ="text-danger">Id</span></strong> of the movie identified above.)</p>
             <p>A user can only review each movie once!</p>
           </div>
         </div>
