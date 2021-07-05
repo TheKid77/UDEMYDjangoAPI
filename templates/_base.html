@@ -5,15 +5,55 @@
 <head>
     <title>Andy's IMDB Style API Django Rest Framework Collection</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://www.markuptag.com/bootstrap/5/css/bootstrap.min.css">
-    <style>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+    <script crossorigin="anonymous" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<style>
+	.row > div{
+        margin-bottom: 15px;
+    }
+	.header{
+        min-height: 90px;
+    }
+    .footer{
+        min-height: 60px;
+    }
+    .header, .footer{
+        background: #2f2f2f;
+    }
+    .sidebar{
+        min-height: 300px;
+        background: #dbdfe5;
+    }
+    .content-top{
+        min-height: 160px;
+        background: #b4bac0;
+    }
+    .content-bottom{
+        min-height: 125px;
+        background: #7e8aa0;
+        margin-bottom: -15px;
+    }
+    .content-bottom.bg-alt{
+        background: #9ca5b6;
+    }
     .card-thumbnail {
         max-height: 250px;
         overflow: hidden;
+   }
+/* Styles for proper margin when layout become horizontal */
+@media (max-width: 991px){
+    .content-bottom{
+        margin-bottom: 15px;
     }
-    </style>
+    .content-bottom.bg-alt{
+        margin-bottom: -15px;
+    }
+}
+</style>
 </head>
 <body>
 
@@ -149,9 +189,5 @@
             </div>
         </div>
     </section>
-
-    <!-- Bootstrap JS -->
-    <script src="https://www.markuptag.com/bootstrap/5/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>
