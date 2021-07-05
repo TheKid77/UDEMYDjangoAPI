@@ -57,7 +57,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-info">
   <a class="navbar-brand" href="#">IMDB</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -66,24 +66,10 @@
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'home' %}">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
+        <a class="nav-link" href="{% url 'schema-swagger-ui' %}">Swagger API Documentation</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
@@ -99,7 +85,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="mb-3 text-danger bg-dark text-white text-center">Andy's IMDB Style API Django Rest Framework Collection</h2>
+                    <h2 class="mb-3 text-danger bg-dark text-light text-center">Andy's IMDB Style API Django Rest Framework Collection</h2>
                 </div>
 
                 <div class="col-md-6 col-lg-4">
@@ -148,7 +134,6 @@
                               <p>
                                 Click on Authorize and supply the value, "Token tokenstring" - Click Authorize.
                               </p>
-                            <a href="#" class="btn btn-danger">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -163,7 +148,6 @@
             <p>Click on Swagger API Documentation.</p>
             <p>Use the <strong><span class ="text-primary">POST /watch/create-movie</span></strong> endpoint (Try it out) to create a new movie. (Only requires a <strong><span class ="text-danger">Title, Storyline</strong> and 
             <strong><span class ="text-danger">Platform</span></strong><br /><br />1 - Disney Channel <br />2 - Prime Video <br />3 - Netflix</p>
-                            <a href="#" class="btn btn-danger">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -181,7 +165,6 @@
                             <p>Use the <strong><span class ="text-primary">POST /watch/{id}/review-create</span></strong> endpoint (Try  it out) to create a review. (Requires
                                a <strong><span class ="text-danger">Rating, Description</span></strong> and the <strong><span class ="text-danger">Id</span></strong> of the movie identified above.)</p>
                             <p>A user can only review each movie once!</p>
-                            <a href="#" class="btn btn-danger">Read More</a>
                         </div>
                     </div>
                 </div>
